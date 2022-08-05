@@ -34,7 +34,17 @@ struct TCP_header{
 	u_char header_len; // bit calculation needed (50 -> 5), 47
 };
 
+struct UDP_header{
+	u_short s_Port; // 35, 36
+	u_short d_Port; // 37, 38
+	u_short UDP_length; // 39, 40
+	u_short chksum; // 41, 42
+};
+
 // payload location = 14 + IP_header->header_len + TCP_header->header_len
 
 int parse_data(const u_char * packet, u_int length);
 // function parse_data(packet) filles data in stuctures.
+
+int parse_UDP_data(const u_char * UDP_packet);
+// for sudden task
