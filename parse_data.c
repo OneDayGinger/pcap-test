@@ -87,10 +87,13 @@ int parse_data(const u_char * packet, u_int length) {
 
     printf(">>> TCP Payloads <<<\n");
     if ((u_int)count == length) {
-        printf("No Data\n");
+        printf("No Data\n\n");
     }
     else{
         for (i = count; i < count + 10; i++) {
+	if ((u_int)i == length) {
+		break;
+	}
         printf("%02x ", *(packet + i));
     }
     printf("\n\n\n");
