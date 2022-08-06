@@ -48,8 +48,8 @@ int main(int argc, char* argv[]) {
 			printf("pcap_next_ex return %d(%s)\n", res, pcap_geterr(pcap));
 			break;
 		}
-		// answer = parse_data(packet, header->caplen);
-		answer = parse_UDP_data(packet);
+		answer = parse_data(packet, header->caplen);
+		// answer = parse_UDP_data(packet);
 
 		switch(answer){
 			case -1:
