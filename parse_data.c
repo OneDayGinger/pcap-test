@@ -109,12 +109,12 @@ int parse_UDP_data(const u_char * UDP_packet) {
     int mod = 0;
     
     // init headers
-    struct Eth_header *eth_header = (struct Eth_header*)packet;
+    struct Eth_header *eth_header = (struct Eth_header*)UDP_packet;
     if (ntohs(eth_header->ether_type) != 0x0800){
         return -1;
     }
 
-    struct IP_header *ip_header = (struct IP_header*)(packet + ETH_HEADER_LEN);
+    struct IP_header *ip_header = (struct IP_header*)(UDP_packet + ETH_HEADER_LEN);
     if (ip_header->protocol != 0x11){
         return -2;
     }
@@ -122,18 +122,18 @@ int parse_UDP_data(const u_char * UDP_packet) {
     count += ETH_HEADER_LEN + (ip_header->header_len & 0B00001111) * 4;
     mod = count % 16;
 
-    struct UDP_header *udp_header = (struct UDP_header*)(packet + count);
+    struct UDP_header *udp_header = (struct UDP_header*)(UDP_packet + count);
 
     udp_header->UDP_length = ntohs(udp_header->UDP_length);
     for (i = count + 8; i <= count + udp_header->UDP_length; i++) {
         
-        printf("%02x ", *(packet + i));
+        printf("%02x ", *(UDP_packet + i));
         
         if (i % 16 == mod) {
             printf("  :bin|string:  ");
 
             for (j = i - 15; j <= i; j++) {
-                printf("%c", *(packet + j));
+                printf("%c", *(UDP_packet + j));
             }
         }
     }
